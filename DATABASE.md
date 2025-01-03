@@ -26,6 +26,8 @@ Reload privilege tables now? [Y/n] y
 ```
 CREATE USER 'master01'@'%' IDENTIFIED BY 'pass01';
 GRANT ALL PRIVILEGES ON *.* TO 'master01'@'%';
+-- Создать базу данных n8n_base01
+GRANT ALL PRIVILEGES ON n8n_base01.* TO 'n8n_user01'@'%';
 FLUSH PRIVILEGES;
 EXIT
 ```
