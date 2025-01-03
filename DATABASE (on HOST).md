@@ -1,7 +1,7 @@
 # Устанавливаем сервер базы данных
 Работаем от root. База данных установлена прямо на host (без docker)
 
-Необходимо отключить ufw (ufw disable, reboot, ufw status)! 
+Необходимо отключить ufw (ufw disable, reboot, ufw status)! Порт 3306 должен быть открыт!
 
 1. apt install mariadb-server
 
@@ -43,14 +43,18 @@ bind-address = 0.0.0.0
 
 8. service mysql restart
 
-9. Если вы используете n8n в Docker в Linux, используйте флаг для сопоставления при запуске контейнера
+9. Если используется n8n в Docker в Linux, то нужно использовать флаг --add-host для сопоставления при запуске контейнера
 
 ```
---add-hosthost.docker.internalhost-gateway
+docker run -d --restart unless-stopped -it \
+--name n8n \
+--add-host host.docker.internalhost-gateway \
+-p 5678:5678 \
+-e N8N_HOST="nero-n8n.duckdns.org" \
+-e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" \
+-e WEBHOOK_URL="https://nero-n8n.duckdns.org/" \
+-v ~/.n8n:/root/.n8n \
+n8nio/n8n
 ```
 
-При настройке учетных данных MySQL в качестве адреса хоста вместо .localhost необходимо указать
-
-```
-host.docker.internal
-```
+При настройке учетных данных MySQL в качестве адреса хоста вместо localhost необходимо указать host.docker.internal
