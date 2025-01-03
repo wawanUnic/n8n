@@ -42,7 +42,7 @@
 -----END OPENSSH PRIVATE KEY-----
 ```
 
-На ПК загрузим PuTTYgen. В меню: Conversions->Import key, найдем сохраненный файл закрытого ключа. Он загрузится в программу. Нажмем «Сохранить закрытый ключ» в формате PuTTY .ppk в D:\Program Files\PuTTY\KEYs. Загрузим файл .ppk в свой профиль SSH в программе PuTTY: Connection->SSH->Auth->Credentials. А также connection - keepAlive 15 sec. Сохраним свой профиль в PuTTY
+На ПК загрузим PuTTYgen. В меню: Conversions->Import key, найдем сохраненный файл закрытого ключа. Он загрузится в программу. Нажмем «Сохранить закрытый ключ» в формате PuTTY .ppk в D:\Program Files\PuTTY\KEYs. Загрузим файл .ppk в свой профиль SSH в программе PuTTY: Connection->SSH->Auth->Credentials. А также connection - keepAlive 15 sec. Порт для соединения 46 (вместо 22)! Сохраним свой профиль в PuTTY
 
 5. mv id_ed25519.pub authorized_keys
 
@@ -57,6 +57,8 @@ PasswordAuthentication no
 ```
 
 8. service ssh restart
+
+9. reboot
 
 
 ## Устанавливаем Docker
