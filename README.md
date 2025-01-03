@@ -6,7 +6,7 @@
 
 1. Убедитесь, что запись DNS A вашего домена указывает на IP-адрес вашего сервера
 
-2. Если установлен фаервол, то разрешите порты 80, 443 и 5678 (зачем этот порт?)
+2. Если установлен фаервол, то разрешите порты 46 (!), 80, 443 и 5678 (зачем этот порт?)
 
 
 ## Устанавливаем Docker
@@ -67,6 +67,27 @@ server {
 1. apt install certbot python3-certbot-nginx
 
 2. certbot --nginx -d nero-n8n.duckdns.org
+
+
+## Устанавливаем фаер-вол
+
+1. apt install ufw
+
+2. ufw enable
+
+3. ufw status
+
+5. ufw allow 46/tcp (!)
+
+6. ufw allow 80/tcp
+
+7. ufw allow 443/tcp
+
+8. ufw reload
+
+9. reboot
+
+10. ufw status
 
 
 ## Отладка
