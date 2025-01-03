@@ -42,3 +42,15 @@ bind-address = 0.0.0.0
 ```
 
 8. service mysql restart
+
+9. Если вы используете n8n в Docker в Linux, используйте флаг для сопоставления при запуске контейнера
+
+```
+--add-hosthost.docker.internalhost-gateway
+```
+
+При настройке учетных данных MySQL в качестве адреса хоста вместо .localhost необходимо указать
+
+```
+host.docker.internal
+```
