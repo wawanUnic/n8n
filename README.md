@@ -8,6 +8,7 @@
 
 2. Если установлен фаервол, то разрешите порты 80, 443 и 5678 (зачем этот порт?)
 
+
 ## Устанавливаем Docker
 
 1. apt update
@@ -18,10 +19,14 @@
 
 4. systemctl enable docker
 
+5. systemctl status docker
+
 
 ## Запускаем n8n в Docker (Будет работать только на localhost:5678. Без шифрования работать не будет!)
 
+```
 docker run -d --restart unless-stopped -it --name n8n -p 5678:5678 -e N8N_HOST="nero-n8n.duckdns.org/" -e WEBHOOK_TUNNEL_URL="https://nero-8n8.duckdns.org/" -e WEBHOOK_URL="https://nero-n8n.duckdns.org/" -v ~/.n8n:/root/.n8n n8nio/n8n
+```
 
 
 ## Устанавливаем Nginx
@@ -31,8 +36,9 @@ docker run -d --restart unless-stopped -it --name n8n -p 5678:5678 -e N8N_HOST="
 
 ## Конфигурируем Nginx
 
-1. nano /etc/nginx/sites-available/nero-n8n
+1. Правим файл /etc/nginx/sites-available/nero-n8n
 
+```
 server_names_hash_bucket_size 64;
 server {
         listen 80;
@@ -47,6 +53,7 @@ server {
             proxy_set_header Connection "upgrade";
         }
     }
+```
 
 3. ln -s /etc/nginx/sites-available/nero-n8n /etc/nginx/sites-enabled/
 
@@ -75,8 +82,10 @@ server {
 
 2. Убедитесь, что экземпляр n8n использует постоянный том или сопоставленный каталог для хранения данных. Это очень важно, поскольку рабочие процессы, учетные записи пользователей и конфигурации хранятся в файле базы данных (обычно database.sqlite), который должен находиться в каталоге, который остается нетронутым даже после удаления контейнера. В вашем docker-compose.yml должно быть что-то вроде этого:
 
-volumes:
-- ~/.n8n:/home/node/.n8n
+```
+volumes: - ~/.n8n:/home/node/.n8n
+```
+
 Это сопоставление гарантирует, что каталог .n8n на хост-компьютере будет использоваться для хранения данных, сохраняя рабочие процессы и конфигурации при обновлении контейнера
 
 3. Когда вы останавливаетесь и удаляете контейнер n8n, вы удаляете только сам экземпляр контейнера, а не данные, хранящиеся в постоянном томе. Если объем настроен правильно, ваши рабочие процессы и учетные записи не должны быть затронуты
