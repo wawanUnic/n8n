@@ -1,5 +1,7 @@
 # Устанавливаем сервер базы данных
-Работаем от root
+Работаем от root. База данных установлена прямо на host (без docker)
+
+Необходимо отключить ufw (ufw disable, reboot, ufw status)! 
 
 1. apt install mariadb-server
 
