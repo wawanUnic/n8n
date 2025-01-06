@@ -67,11 +67,22 @@ PasswordAuthentication no
 
 2. apt install docker.io
 
+2.5 docker --version
+
 3. systemctl start docker
 
 4. systemctl enable docker
 
 5. systemctl status docker
+
+
+## Устанавливаем Docker-compose (он не нужен, но на всякий случай...)
+
+1. curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+2. chmod +x /usr/local/bin/docker-compose
+
+3. docker-compose --version
 
 
 ## Запускаем n8n в Docker (Будет работать только на localhost:5678. Без шифрования работать не будет!)
