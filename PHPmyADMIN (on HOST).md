@@ -1,15 +1,15 @@
 # Устанавливаем менеджер сервера базы данных
 Работаем от root.
 
-0. apt update
+0a. apt update
 
-0. apt install php-fpm
+0b. apt install php-fpm
 
-0. apt install php-mysql
+0c. apt install php-mysql
 
-0. apt-get install php-mbstring (apt install php-mbstring)
+0d. apt-get install php-mbstring (apt install php-mbstring)
 
-0. php -v (8.3.6)
+0e. php -v (8.3.6)
 
 1. apt install nginx (1.10.3)
 
