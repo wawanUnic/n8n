@@ -1,60 +1,49 @@
-# Устанавливаем сервер базы данных
-Работаем от root. База данных установлена прямо на host (без docker)
+# Устанавливаем менеджер сервера базы данных
+Работаем от root.
 
-Необходимо отключить ufw (ufw disable, reboot, ufw status)! Порт 3306 должен быть открыт!
+1. apt install nginx (1.10.3)
 
-1. apt install mariadb-server
+2. systemctl enable nginx
 
-2. systemctl enable --now mariadb
+3. systemctl start nginx
 
-3. systemctl start mariadb
+4. systemctl status nginx
 
-4. systemctl status mariadb
+5. apt install phpmyadmin (никакой из двух серверов не ставим)
 
-5. mysql_secure_installation
-
-```
-Enter current password for root (enter for none):
-Switch to unix_socket authentication [Y/n] n
-Change the root password? [Y/n] n
-Remove anonymous users? [Y/n] y
-Disallow root login remotely? [Y/n] y
-Remove test database and access to it? [Y/n] n
-Reload privilege tables now? [Y/n] y
-```
-
-6. mysql -u root -p
+6. /etc/nginx/sites-available/my_file:
 
 ```
-CREATE USER 'master01'@'%' IDENTIFIED BY 'pass01';
-GRANT ALL PRIVILEGES ON *.* TO 'master01'@'%';
--- Создать базу данных n8n_base01
-CREATE USER 'n8n_user01'@'%' IDENTIFIED BY 'n8n_pass01';
-GRANT ALL PRIVILEGES ON n8n_base01.* TO 'n8n_user01'@'%';
-FLUSH PRIVILEGES;
-EXIT
+server_names_hash_bucket_size 64;
+location /phpmyadmin/ {
+        alias /var/www/html/phpmyadmin/;
+        index index.php;
+        location ~ \.php$ {
+            fastcgi_read_timeout 360;
+            fastcgi_pass unix:/var/run/php/php-fpm.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
 ```
 
-7. nano /etc/mysql/mariadb.conf.d/50-server.cnf
+7. /etc/nginx/nginx.conf
 
 ```
-bind-address = 0.0.0.0
+http {client_max_body_size 30M; ...
 ```
 
-8. service mysql restart
+8. nginx -t
 
-9. Если используется n8n в Docker в Linux, то нужно использовать флаг --add-host для сопоставления при запуске контейнера
+9. systemctl restart nginx
+
+10. /etc/php/8.x/fpm/php.ini
 
 ```
-docker run -d --restart unless-stopped -it \
---name n8n \
---add-host host.docker.internalhost-gateway \
--p 5678:5678 \
--e N8N_HOST="nero-n8n.duckdns.org" \
--e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" \
--e WEBHOOK_URL="https://nero-n8n.duckdns.org/" \
--v ~/.n8n:/root/.n8n \
-n8nio/n8n
+upload_max_filesize 30M
+post_max_size 30M
+max_execution_time 300
+max_input_time 300
 ```
 
-При настройке учетных данных MySQL в качестве адреса хоста вместо localhost необходимо указать host.docker.internal
+11. systemctl restart php8.3-fpm
