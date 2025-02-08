@@ -41,6 +41,13 @@ EXIT
 bind-address = 0.0.0.0
 ```
 
+7.5 nano /etc/mysql/my.cnf
+
+```
+[mysqld]
+default-time-zone='+01:00'
+```
+
 8. service mysql restart
 
 9. Если используется n8n в Docker в Linux, то нужно использовать флаг --add-host для сопоставления при запуске контейнера
