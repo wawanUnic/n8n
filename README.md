@@ -58,7 +58,7 @@ PasswordAuthentication no
 
 8. service ssh restart
 
-9. reboot
+9. reboot :)
 
 
 ## Устанавливаем Docker
@@ -88,14 +88,7 @@ PasswordAuthentication no
 ## Запускаем n8n в Docker (Будет работать только на localhost:5678. Без шифрования работать не будет!)
 
 ```
-docker run -d --restart unless-stopped -it \
---name n8n \
--p 5678:5678 \
--e N8N_HOST="nero-n8n.duckdns.org" \
--e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" \
--e WEBHOOK_URL="https://nero-n8n.duckdns.org/" \
--v n8n_data:/home/node/.n8n
-n8nio/n8n
+docker run -d --restart unless-stopped -it --name n8n -p 5678:5678 -e N8N_HOST="nero-n8n.duckdns.org" -e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" -e WEBHOOK_URL="https://nero-n8n.duckdns.org/" -v n8n_data:/home/node/.n8n n8nio/n8n
 ```
 
 
@@ -109,7 +102,7 @@ n8nio/n8n
 1. Правим файл /etc/nginx/sites-available/nero-n8n
 
 ```
-server_names_hash_bucket_size 64;
+server_names_hash_bucket_size 64; -- из-за этого бывает ошибка при получении сертификата
 server {
         listen 80;
         server_name nero-n8n.duckdns.org;
