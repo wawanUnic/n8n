@@ -96,7 +96,11 @@ server {
 
 22. certbot --nginx -d nero-n8n.duckdns.org
 
-23. nano /etc/phppgadmin/config.inc.php
+23. nginx -t
+
+24. systemctl restart nginx
+
+25. nano /etc/phppgadmin/config.inc.php
 
 ```
 $conf['extra_login_security'] = false;
