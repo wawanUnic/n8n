@@ -42,10 +42,62 @@ SELECT * FROM items ORDER BY bbbb <-> '[3,1,2]' LIMIT 5;
 ```
 
 ```
-CREATE USER helloIam11Admin2 WITH PASSWORD 'ololo2';
 ALTER USER postgres WITH PASSWORD 'new_pass';
+CREATE USER helloIam11Admin2 WITH PASSWORD 'ololo2';
 ALTER USER helloIam11Admin2 WITH SUPERUSER;
 CREATE DATABASE FBD2 OWNER helloIam11Admin2;
 \du
 \q
+```
+
+9. apt install nginx (1.18.0)
+
+10. systemctl enable nginx
+
+11. systemctl start nginx
+
+12. systemctl status nginx
+
+13. apt install phppgadmin php php-fpm php-pgsql
+
+14. php --version (8.1.2)
+
+15. nano /etc/nginx/sites-available/nero2auto.conf
+
+```
+server {
+    listen 80;
+    server_name nero2auto.duckdns.org;
+
+    location /phppgadmin/ {
+        alias /usr/share/phppgadmin/;
+        index index.php;
+        location ~ \.php$ {
+            fastcgi_read_timeout 360;
+            fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
+}
+```
+
+16. ln -s /etc/nginx/sites-available/nero2auto.conf /etc/nginx/sites-enabled/
+
+17. chown -R www-data:www-data /usr/share/phppgadmin
+
+18. chmod -R 755 /usr/share/phppgadmin
+
+19. nginx -t
+
+20. systemctl restart nginx
+
+21. apt install certbot python3-certbot-nginx
+
+22. certbot --nginx -d nero-n8n.duckdns.org
+
+23. nano /etc/phppgadmin/config.inc.php
+
+```
+$conf['extra_login_security'] = false;
 ```
