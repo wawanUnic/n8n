@@ -55,7 +55,7 @@ default-time-zone='+01:00'
 ```
 docker run -d --restart unless-stopped -it \
 --name n8n \
---add-host host.docker.internalhost-gateway \
+--add-host host.docker.internal:host-gateway \
 -p 5678:5678 \
 -e N8N_HOST="nero-n8n.duckdns.org" \
 -e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" \
