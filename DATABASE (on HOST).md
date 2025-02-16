@@ -65,3 +65,42 @@ n8nio/n8n
 ```
 
 При настройке учетных данных MySQL в качестве адреса хоста вместо localhost необходимо указать host.docker.internal
+
+10. apt install php-fpm php-mbstring php-zip php-gd php-json php-curl
+
+11. apt install phpmyadmin
+
+```
+no server
+no password
+```
+
+12. nano /etc/php/8.1/fpm/php.ini
+
+```
+cgi.fix_pathinfo=0
+mbstring.func_overload=0
+```
+
+13. nano /etc/nginx/sites-available/nero2auto.conf
+
+```
+server {
+    server_name nero2auto.duckdns.org;
+    location /phpmyadmin/ {
+        alias /usr/share/phpmyadmin/;
+        index index.php;
+        location ~ \.php$ {
+            fastcgi_read_timeout 360;
+            fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $request_filename;
+        }
+    }
+```
+
+14. ln -s /etc/nginx/sites-available/nero2auto.conf /etc/nginx/sites-enabled/
+
+15. nginx -t
+
+16. systemctl restart nginx
