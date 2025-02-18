@@ -85,7 +85,7 @@ PasswordAuthentication no
 3. docker-compose --version
 
 
-## Запускаем n8n в Docker (Будет работать только на localhost:5678. Без шифрования работать не будет!)
+## Запускаем n8n в Docker (Будет работать только на localhost:5678. Без шифрования работать не будет!) (?????  -v ~/.n8n:/root/.n8n)
 
 ```
 docker run -d --restart unless-stopped -it --name n8n -p 5678:5678 -e N8N_HOST="nero-n8n.duckdns.org" -e WEBHOOK_TUNNEL_URL="https://nero-n8n.duckdns.org/" -e WEBHOOK_URL="https://nero-n8n.duckdns.org/" -v n8n_data:/home/node/.n8n n8nio/n8n
