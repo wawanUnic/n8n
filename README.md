@@ -75,6 +75,7 @@ PasswordAuthentication no
 
 5. systemctl status docker
 
+Для RaspberryPi: sudo apt update, sudo apt upgrade, curl -sSL https://get.docker.com | sh, sudo usermod -aG docker $USER, logout, login, groups, docker -v, systemctl status docker.service
 
 ## Устанавливаем Docker-compose (он не нужен, но на всякий случай...)
 
