@@ -25,14 +25,13 @@ Reload privilege tables now? [Y/n] y
 
 6. mysql -u root -p
 
+При создании пользователя нужно всегда указывать доступ %, иначе N8N не сможет войти под его именем!
 ```
 CREATE USER 'master01'@'%' IDENTIFIED BY 'pass01';
-GRANT ALL PRIVILEGES ON *.* TO 'master01'@'%';
--- Создать базу данных n8n_base01
-CREATE USER 'n8n_user01'@'%' IDENTIFIED BY 'n8n_pass01';
-GRANT ALL PRIVILEGES ON n8n_base01.* TO 'n8n_user01'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'master01'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT
+-- Создать пользователей, базы данных, таблицы через HeidiSQL
 ```
 
 7. nano /etc/mysql/mariadb.conf.d/50-server.cnf
